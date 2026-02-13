@@ -1,0 +1,19 @@
+[project]
+name = "pig-plugin-hltv"
+version = "1.0.0"
+description = "HLTV CS2 赛事追踪插件"
+authors = [{name = "pwaurora"}]
+requires-python = ">=3.10"
+dependencies = [
+    "pigsender-plugin-sdk",
+    "aiohttp",
+    "curl_cffi",
+    "beautifulsoup4",
+    "lxml",
+    "Pillow",
+    "cs2api",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.backends._legacy:_Backend"
