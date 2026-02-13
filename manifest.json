@@ -1,0 +1,93 @@
+{
+    "name": "hltv",
+    "display_name": "HLTV赛事追踪",
+    "version": "1.0.0",
+    "description": "CS2 赛事订阅与追踪，支持比赛推送和实时比分",
+    "author": "pwaurora",
+    "enabled": true,
+    "main_class": "HLTVModule",
+    "main_file": "hltv_module.py",
+    "dependencies": [
+        "aiohttp",
+        "curl_cffi",
+        "beautifulsoup4",
+        "lxml",
+        "Pillow",
+        "cs2api"
+    ],
+    "permissions": [
+        "send_image",
+        "send_message",
+        "database"
+    ],
+    "triggers": [
+        "@bot",
+        "hltv",
+        "订阅战队",
+        "今日比赛",
+        "实时比分",
+        "战队排名"
+    ],
+    "background_tasks": [
+        "match_polling",
+        "daily_notify"
+    ],
+    "help": {
+        "commands": [
+            { "cmd": "@我 订阅战队 <战队名>", "desc": "订阅战队比赛通知" },
+            { "cmd": "@我 取消订阅 <战队名>", "desc": "取消订阅" },
+            { "cmd": "@我 我的订阅", "desc": "查看当前订阅" },
+            { "cmd": "@我 今日比赛", "desc": "查看今日赛程" },
+            { "cmd": "@我 实时比分", "desc": "查看正在进行的比赛" },
+            { "cmd": "@我 战队<战队名>", "desc": "查看战队比赛比分" },
+            { "cmd": "@我 战队排名", "desc": "查看 HLTV 战队排名" },
+            { "cmd": "@我 比赛结果", "desc": "查看最近比赛结果" }
+        ],
+        "footer": "数据来源: HLTV.org / Bo3.gg"
+    },
+    "has_config": true,
+    "config_schema": {
+        "data_source": {
+            "type": "object",
+            "label": "数据源配置",
+            "properties": {
+                "bo3gg_enabled": { "type": "boolean", "default": true },
+                "hltv_base_url": { "type": "string", "default": "https://www.hltv.org" },
+                "fallback_to_hltv": { "type": "boolean", "default": true },
+                "request_timeout": { "type": "integer", "default": 30 },
+                "max_retries": { "type": "integer", "default": 3 }
+            }
+        },
+        "polling": {
+            "type": "object",
+            "label": "轮询配置",
+            "properties": {
+                "match_poll_interval": { "type": "integer", "default": 60 },
+                "live_score_interval": { "type": "integer", "default": 30 },
+                "ranking_update_interval": { "type": "integer", "default": 6 }
+            }
+        },
+        "notification": {
+            "type": "object",
+            "label": "推送配置",
+            "properties": {
+                "daily_notify_enabled": { "type": "boolean", "default": true },
+                "daily_notify_hour": { "type": "integer", "default": 9 },
+                "match_start_notify": { "type": "boolean", "default": true },
+                "match_end_notify": { "type": "boolean", "default": true },
+                "live_score_notify": { "type": "boolean", "default": false },
+                "notify_before_minutes": { "type": "integer", "default": 15 }
+            }
+        },
+        "display": {
+            "type": "object",
+            "label": "显示配置",
+            "properties": {
+                "max_matches_per_page": { "type": "integer", "default": 10 },
+                "max_rankings_display": { "type": "integer", "default": 20 },
+                "timezone": { "type": "string", "default": "Asia/Shanghai" },
+                "render_style": { "type": "string", "default": "modern_dark" }
+            }
+        }
+    }
+}
